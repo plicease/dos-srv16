@@ -1,13 +1,14 @@
 BINDIR := root/bin
 EXTRA_REPOS := tico-edit/tico16
 
-.PHONY: help fetch checksum
+.PHONY: help fetch checksum image
 
 help:
 	@echo "Targets:"
 	@echo "  help      show this message (default)"
 	@echo "  fetch     download latest release .exe files into $(BINDIR)"
 	@echo "  checksum  write md5sum and crcsum files in root and each subdirectory"
+	@echo "  image     build srv.img from the contents of root"
 
 # Download the .exe assets from the latest release of each non-fork
 # dos-*16 repo (and EXTRA_REPOS) into $(BINDIR).  Assets whose sha256
@@ -46,3 +47,12 @@ checksum:
 	  echo "$$dir/md5sum $$dir/crcsum"; \
 	  (cd "$$dir" && md5sum $$files > md5sum && crcsum $$files > crcsum); \
 	done
+
+image: srv.img
+
+# Rebuilt when anything under root changes.  interloper refuses to
+# overwrite, so build to a temporary name and move it into place.
+srv.img: $(shell find root)
+	@rm -f $@.tmp
+	interloper image create $@.tmp root
+	@mv $@.tmp $@
