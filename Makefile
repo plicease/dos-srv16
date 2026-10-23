@@ -1,11 +1,17 @@
 BINDIR := root/bin
 EXTRA_REPOS := tico-edit/tico16
 
-.PHONY: fetch
+.PHONY: help fetch checksum
+
+help:
+	@echo "Targets:"
+	@echo "  help      show this message (default)"
+	@echo "  fetch     download latest release .exe files into $(BINDIR)"
+	@echo "  checksum  write md5sum and crcsum files in root and each subdirectory"
 
 # Download the .exe assets from the latest release of each non-fork
-# dos-*16 repo (and EXTRA_REPOS) into $(BINDIR).  Assets whose sha256 matches the
-# local copy are skipped.
+# dos-*16 repo (and EXTRA_REPOS) into $(BINDIR).  Assets whose sha256
+# matches the local copy are skipped.
 fetch:
 	@mkdir -p $(BINDIR)
 	@set -e; \
@@ -28,4 +34,15 @@ fetch:
 	    curl -fsSL -o "$$dest.tmp" "$$url"; \
 	    mv "$$dest.tmp" "$$dest"; \
 	  done; \
+	done
+
+# Write md5sum and crcsum files in root and each of its subdirectories
+# covering the regular files there, excluding the md5sum and crcsum files.
+checksum:
+	@find root -type d | while read -r dir; do \
+	  files="$$(cd "$$dir" && find . -maxdepth 1 -type f \
+	            ! -name md5sum ! -name crcsum | sed 's|^\./||' | LC_ALL=C sort)"; \
+	  [ -n "$$files" ] || continue; \
+	  echo "$$dir/md5sum $$dir/crcsum"; \
+	  (cd "$$dir" && md5sum $$files > md5sum && crcsum $$files > crcsum); \
 	done
