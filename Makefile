@@ -1,5 +1,8 @@
 BINDIR := root/bin
-EXTRA_REPOS := tico-edit/tico16
+# Extra repos to fetch from.  REPO takes every .exe and .com asset of its
+# latest release; REPO:ASSET takes only the asset named ASSET (for repos
+# whose releases also hold host programs, such as Windows installers).
+EXTRA_REPOS := tico-edit/tico16 plicease/sprocket:sprocket.exe
 
 .PHONY: help fetch checksum image
 
@@ -19,11 +22,18 @@ fetch:
 	repos="$$(gh repo list gr-dos --source --limit 1000 --json name -q '.[].name' \
 	          | grep -E '16$$' \
 	          | sed 's|^|gr-dos/|') $(EXTRA_REPOS)"; \
-	for repo in $$repos; do \
+	for entry in $$repos; do \
+	  repo="$${entry%%:*}"; \
+	  case "$$entry" in \
+	    *:*) want="$${entry#*:}"; \
+	         select=".name == \"$$want\"";; \
+	    *)   want=".exe or .com"; \
+	         select='.name | test("\\.(exe|com)$$"; "i")';; \
+	  esac; \
 	  assets="$$(gh api repos/$$repo/releases/latest \
-	             --jq '.assets[] | select(.name | test("\\.(exe|com)$$"; "i")) | "\(.name) \(.digest // "") \(.browser_download_url)"' \
+	             --jq ".assets[] | select($$select)"' | "\(.name) \(.digest // "") \(.browser_download_url)"' \
 	             2>/dev/null)" || { echo "$$repo: no release, skipping"; continue; }; \
-	  [ -n "$$assets" ] || { echo "$$repo: no .exe or .com assets"; continue; }; \
+	  [ -n "$$assets" ] || { echo "$$repo: no $$want assets"; continue; }; \
 	  echo "$$assets" | while read -r name digest url; do \
 	    dest="$(BINDIR)/$$name"; \
 	    if [ -f "$$dest" ] && [ -n "$$digest" ] && \
