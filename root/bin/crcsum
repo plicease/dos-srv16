@@ -3,6 +3,8 @@
 7fb1a87a *crcsum.exe
 23aa6e5e *df.exe
 24a2a85f *diff.exe
+42a4ce92 *du.exe
+0ef1a922 *edit.exe
 f28e7f03 *gzip.exe
 4d1406b8 *hello.com
 a35a1ba1 *hello.exe
@@ -11,10 +13,11 @@ d72735df *ls.exe
 0fe94b34 *md5sum.exe
 91fd9e27 *patch.exe
 7f57fae1 *retrofch.exe
+585ef235 *sprocket.exe
 11be9e46 *tar.exe
 1e673803 *tcl.exe
 fefa719b *term16.exe
-839691e5 *tico.exe
+c4febfee *tico.exe
 5da7c715 *truncate.com
 c0e68489 *truncate.exe
 dbc3a914 *uname.com

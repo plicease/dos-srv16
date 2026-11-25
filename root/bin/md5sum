@@ -3,6 +3,8 @@ f17dd66d6e81f313d86f9f5b30e9981c  cat.exe
 2d7a0c9fd24f8a1fe0c4a9b42452fad5  crcsum.exe
 7eb87b8c1227d695900f098c9652c9e6  df.exe
 b052832910854f4ba8b89a770c382645  diff.exe
+a082ea6da2268791991cf667d9c538d1  du.exe
+d5f96ebd79e4d0dcd8c00239ea5769b2  edit.exe
 468c7ede345425ea4b7db63360084743  gzip.exe
 f0eb5fb11a50e0fea9745407f0fe1eb6  hello.com
 a6d741b9ee9837f4887fd5d22b01eda7  hello.exe
@@ -11,10 +13,11 @@ ad3914e0b62c5d45e909ba214e497c95  ls.exe
 e08449aeaa7597bcfe8c036c35210f13  md5sum.exe
 5020d6bc907d4d152d9a78258acb73ab  patch.exe
 4a110a0cb9a34163025de7a749579cf6  retrofch.exe
+b03d0f0f612cc16c31f70f62d375e172  sprocket.exe
 3b82d464d8a318f13fc6cac5fee57cb3  tar.exe
 b6c44b189ba4ea4b2ca0b4acdbcca3ff  tcl.exe
 34e45edf570c91ecdb1ffbdfd3160e2a  term16.exe
-85a7f122665dc59719f7c6206a2df2fd  tico.exe
+257f10bc152b98706e4f09657b4719e1  tico.exe
 14ab8bb89284963644f93423dc7135f6  truncate.com
 7f86c005a4b23677ee0c758c8b99d049  truncate.exe
 73b9df789333a7ffe9e2ecd9facffa2a  uname.com
